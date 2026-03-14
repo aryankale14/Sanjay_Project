@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-
+import os
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret123'
@@ -304,4 +304,5 @@ if __name__ == "__main__":
             db.session.add(admin)
             db.session.commit()
 
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
