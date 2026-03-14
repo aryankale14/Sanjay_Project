@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Car Service System</title>
+
+		<link rel="stylesheet" href="/static/css/style.css" />
+	</head>
+
+	<body>
+		<nav class="navbar">
+			<h2>CarService</h2>
+
+			<div class="nav-links">
+				<a href="/">Home</a>
+
+				{% if session.get("role") == "admin" %}
+				<a href="/admin/services">Services</a>
+				<a href="/admin/bookings">Bookings</a>
+				{% endif %} {% if session.get("user_id") %}
+				<a href="/my-bookings">My Bookings</a>
+				<a href="/logout">Logout</a>
+				{% endif %}
+			</div>
+		</nav>
+
+		<div class="container">
+			<h2>Car Service Management</h2>
+
+			{% if page == "login" %}
+
+			<h3>Login</h3>
+
+			<form method="POST" action="/login">
+				<input type="email" name="email" placeholder="Email" /><br />
+
+				<input type="password" name="password" placeholder="Password" /><br />
+
+				<button type="submit">Login</button>
+			</form>
+
+			<a href="/register">Register</a>
+
+			{% endif %} {% if page == "admin_dashboard" %}
+
+			<h3>Admin Dashboard</h3>
+
+			<p>Total Users : {{users}}</p>
+			<p>Total Services : {{services}}</p>
+			<p>Total Bookings : {{bookings}}</p>
+
+			{% endif %} {% if page == "admin_services" %}
+
+			<h3>Add Service</h3>
+
+			<form method="POST" action="/admin/add-service">
+				<input name="name" placeholder="Service Name" /><br />
+
+				<input name="description" placeholder="Description" /><br />
+
+				<input name="price" placeholder="Price" /><br />
+
+				<select name="category">
+					<option value="Basic Services">Basic Services</option>
+					<option value="Maintenance Services">Maintenance Services</option>
+					<option value="Premium Services">Premium Services</option></select
+				><br />
+
+				<button>Add Service</button>
+			</form>
+
+			<h3>Services</h3>
+
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Category</th>
+					<th>Action</th>
+				</tr>
+
+				{% for s in services %}
+
+				<tr>
+					<td>{{s.service_name}}</td>
+					<td>{{s.description}}</td>
+					<td>{{s.price}}</td>
+					<td>{{s.category}}</td>
+
+					<td>
+						<a href="/admin/delete-service/{{s.id}}">Delete</a>
+					</td>
+				</tr>
+
+				{% endfor %}
+			</table>
+
+			{% endif %} {% if page == "services" %}
+
+			<h3>Available Services</h3>
+
+			<h3>Available Services</h3>
+
+			<h4>Basic Services</h4>
+
+			<table>
+				<tr>
+					<th>Service</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Action</th>
+				</tr>
+
+				{% for s in services %} {% if s.category == "Basic Services" %}
+
+				<tr>
+					<td>{{s.service_name}}</td>
+					<td>{{s.description}}</td>
+					<td>{{s.price}}</td>
+
+					<td>
+						<a
+							href="/book/{{s.id}}"
+							onclick="return confirmBooking('{{s.service_name}}')"
+							>Book</a
+						>
+					</td>
+				</tr>
+
+				{% endif %} {% endfor %}
+			</table>
+
+			<h4>Maintenance Services</h4>
+
+			<table>
+				<tr>
+					<th>Service</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Action</th>
+				</tr>
+
+				{% for s in services %} {% if s.category == "Maintenance Services" %}
+
+				<tr>
+					<td>{{s.service_name}}</td>
+					<td>{{s.description}}</td>
+					<td>{{s.price}}</td>
+
+					<td>
+						<a
+							href="/book/{{s.id}}"
+							onclick="return confirmBooking('{{s.service_name}}')"
+							>Book</a
+						>
+					</td>
+				</tr>
+
+				{% endif %} {% endfor %}
+			</table>
+
+			<h4>Premium Services</h4>
+
+			<table>
+				<tr>
+					<th>Service</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Action</th>
+				</tr>
+
+				{% for s in services %} {% if s.category == "Premium Services" %}
+
+				<tr>
+					<td>{{s.service_name}}</td>
+					<td>{{s.description}}</td>
+					<td>{{s.price}}</td>
+
+					<td>
+						<a
+							href="/book/{{s.id}}"
+							onclick="return confirmBooking('{{s.service_name}}')"
+							>Book</a
+						>
+					</td>
+				</tr>
+
+				{% endif %} {% endfor %}
+			</table>
+
+			{% endif %} {% if page == "admin_bookings" %}
+
+			<h3>All Bookings</h3>
+
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>User</th>
+					<th>Service</th>
+					<th>Date</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+
+				{% for b in bookings %}
+
+				<tr>
+					<td>{{b.id}}</td>
+					<td>{{b.user_id}}</td>
+					<td>{{b.service_id}}</td>
+					<td>{{b.date}}</td>
+					<td>{{b.status}}</td>
+
+					<td>
+						<a href="/admin/update-booking/{{b.id}}/Approved">Approve</a> |
+
+						<a href="/admin/update-booking/{{b.id}}/Completed">Complete</a>
+					</td>
+				</tr>
+
+				{% endfor %}
+			</table>
+
+			{% endif %} {% if page == "my_bookings" %}
+
+			<h3>My Bookings</h3>
+
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>Service</th>
+					<th>Date</th>
+					<th>Status</th>
+				</tr>
+
+				{% for b in bookings %}
+
+				<tr>
+					<td>{{b.id}}</td>
+					<td>{{b.service_id}}</td>
+					<td>{{b.date}}</td>
+					<td>{{b.status}}</td>
+				</tr>
+
+				{% endfor %}
+			</table>
+
+			{% endif %}
+		</div>
+
+		<script src="/static/js/script.js"></script>
+	</body>
+</html>
