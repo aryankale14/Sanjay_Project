@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-import os
 
 app = Flask(__name__)
 
@@ -229,14 +228,29 @@ def book_service(service_id):
 @app.route("/my-bookings")
 def my_bookings():
 
+    if "user_id" not in session:
+        return redirect("/")
+
     bookings = Booking.query.filter_by(user_id=session["user_id"]).all()
+
+    booking_data = []
+
+    for b in bookings:
+        service = Service.query.get(b.service_id)
+
+        booking_data.append({
+            "id": b.id,
+            "service_name": service.service_name,
+            "price": service.price,
+            "date": b.date,
+            "status": b.status
+        })
 
     return render_template(
         "index.html",
         page="my_bookings",
-        bookings=bookings
+        bookings=booking_data
     )
-
 
 # =====================
 # ADMIN BOOKINGS
@@ -290,5 +304,4 @@ if __name__ == "__main__":
             db.session.add(admin)
             db.session.commit()
 
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
