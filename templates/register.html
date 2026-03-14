@@ -1,17 +1,38 @@
+<!doctype html>
 <html>
+	<head>
+		<title>Register</title>
+
+		<link rel="stylesheet" href="/static/css/style.css" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+
 	<body>
-		<h2>Register</h2>
+		<nav class="navbar">
+			<h2>CarService</h2>
 
-		<form method="POST">
-			<input name="name" placeholder="Name" /><br />
+			<div class="nav-links">
+				<a href="/">Login</a>
+			</div>
+		</nav>
 
-			<input name="email" placeholder="Email" /><br />
+		<div class="container">
+			<h2>Create Account</h2>
 
-			<input name="password" type="password" placeholder="Password" /><br />
+			<form method="POST">
+				<input name="name" placeholder="Name" /><br />
 
-			<button type="submit">Register</button>
-		</form>
+				<input name="email" placeholder="Email" /><br />
 
-		<a href="/">Back to login</a>
+				<input name="password" type="password" placeholder="Password" /><br />
+
+				<button type="submit">Register</button>
+			</form>
+
+			<br />
+
+			<a href="/">Back to Login</a>
+		</div>
 	</body>
 </html>
