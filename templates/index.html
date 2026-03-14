@@ -4,6 +4,8 @@
 		<title>Car Service System</title>
 
 		<link rel="stylesheet" href="/static/css/style.css" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 
 	<body>
@@ -16,8 +18,9 @@
 				{% if session.get("role") == "admin" %}
 				<a href="/admin/services">Services</a>
 				<a href="/admin/bookings">Bookings</a>
-				{% endif %} {% if session.get("user_id") %}
+				{% endif %} {% if session.get("role") == "customer" %}
 				<a href="/my-bookings">My Bookings</a>
+				{% endif %} {% if session.get("user_id") %}
 				<a href="/logout">Logout</a>
 				{% endif %}
 			</div>
@@ -37,6 +40,8 @@
 
 				<button type="submit">Login</button>
 			</form>
+
+			<br />
 
 			<a href="/register">Register</a>
 
@@ -84,7 +89,7 @@
 				<tr>
 					<td>{{s.service_name}}</td>
 					<td>{{s.description}}</td>
-					<td>{{s.price}}</td>
+					<td>₹ {{s.price}}</td>
 					<td>{{s.category}}</td>
 
 					<td>
@@ -96,8 +101,6 @@
 			</table>
 
 			{% endif %} {% if page == "services" %}
-
-			<h3>Available Services</h3>
 
 			<h3>Available Services</h3>
 
@@ -116,7 +119,7 @@
 				<tr>
 					<td>{{s.service_name}}</td>
 					<td>{{s.description}}</td>
-					<td>{{s.price}}</td>
+					<td>₹ {{s.price}}</td>
 
 					<td>
 						<a
@@ -145,7 +148,7 @@
 				<tr>
 					<td>{{s.service_name}}</td>
 					<td>{{s.description}}</td>
-					<td>{{s.price}}</td>
+					<td>₹ {{s.price}}</td>
 
 					<td>
 						<a
@@ -174,7 +177,7 @@
 				<tr>
 					<td>{{s.service_name}}</td>
 					<td>{{s.description}}</td>
-					<td>{{s.price}}</td>
+					<td>₹ {{s.price}}</td>
 
 					<td>
 						<a
@@ -209,7 +212,15 @@
 					<td>{{b.user_id}}</td>
 					<td>{{b.service_id}}</td>
 					<td>{{b.date}}</td>
-					<td>{{b.status}}</td>
+					<td>
+						{% if b.status == "Pending" %}
+						<span class="status status-pending">Pending</span>
+						{% endif %} {% if b.status == "Approved" %}
+						<span class="status status-approved">Approved</span>
+						{% endif %} {% if b.status == "Completed" %}
+						<span class="status status-completed">Completed</span>
+						{% endif %}
+					</td>
 
 					<td>
 						<a href="/admin/update-booking/{{b.id}}/Approved">Approve</a> |
@@ -229,6 +240,7 @@
 				<tr>
 					<th>ID</th>
 					<th>Service</th>
+					<th>Price</th>
 					<th>Date</th>
 					<th>Status</th>
 				</tr>
@@ -237,9 +249,18 @@
 
 				<tr>
 					<td>{{b.id}}</td>
-					<td>{{b.service_id}}</td>
+					<td>{{b.service_name}}</td>
+					<td>₹ {{b.price}}</td>
 					<td>{{b.date}}</td>
-					<td>{{b.status}}</td>
+					<td>
+						{% if b.status == "Pending" %}
+						<span class="status status-pending">Pending</span>
+						{% endif %} {% if b.status == "Approved" %}
+						<span class="status status-approved">Approved</span>
+						{% endif %} {% if b.status == "Completed" %}
+						<span class="status status-completed">Completed</span>
+						{% endif %}
+					</td>
 				</tr>
 
 				{% endfor %}
