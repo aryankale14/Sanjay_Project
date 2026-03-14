@@ -84,3 +84,54 @@ a {
 a:hover {
     color: black;
 }
+
+
+/* STATUS BADGES */
+
+.status {
+    padding: 4px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #f0ad4e;
+}
+
+.status-approved {
+    background: #5bc0de;
+}
+
+.status-completed {
+    background: #5cb85c;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        margin-top: 10px;
+    }
+
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+}
