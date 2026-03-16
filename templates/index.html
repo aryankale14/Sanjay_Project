@@ -29,51 +29,75 @@
 		<div class="container">
 			<h2>Car Service Management</h2>
 
+			<!-- LOGIN -->
+
 			{% if page == "login" %}
 
 			<h3>Login</h3>
 
 			<form method="POST" action="/login">
-				<input type="email" name="email" placeholder="Email" /><br />
+				<input type="email" name="email" placeholder="Email" />
 
-				<input type="password" name="password" placeholder="Password" /><br />
+				<input type="password" name="password" placeholder="Password" />
 
 				<button type="submit">Login</button>
 			</form>
 
 			<br />
 
-			<a href="/register">Register</a>
+			<a href="/register">Create new account</a>
 
-			{% endif %} {% if page == "admin_dashboard" %}
+			{% endif %}
 
-			<h3>Admin Dashboard</h3>
+			<!-- DASHBOARD (Fix for blank homepage) -->
 
-			<p>Total Users : {{users}}</p>
-			<p>Total Services : {{services}}</p>
-			<p>Total Bookings : {{bookings}}</p>
+			{% if page == "admin_dashboard" %}
 
-			{% endif %} {% if page == "admin_services" %}
+			<h3>Dashboard</h3>
+
+			<table>
+				<tr>
+					<th>Total Users</th>
+					<th>Total Services</th>
+					<th>Total Bookings</th>
+				</tr>
+
+				<tr>
+					<td>{{users}}</td>
+					<td>{{services}}</td>
+					<td>{{bookings}}</td>
+				</tr>
+			</table>
+
+			<br />
+
+			<p>Use the navigation menu to manage services and bookings.</p>
+
+			{% endif %}
+
+			<!-- ADMIN SERVICES -->
+
+			{% if page == "admin_services" %}
 
 			<h3>Add Service</h3>
 
 			<form method="POST" action="/admin/add-service">
-				<input name="name" placeholder="Service Name" /><br />
+				<input name="name" placeholder="Service Name" />
 
-				<input name="description" placeholder="Description" /><br />
+				<input name="description" placeholder="Description" />
 
-				<input name="price" placeholder="Price" /><br />
+				<input name="price" placeholder="Price" />
 
 				<select name="category">
 					<option value="Basic Services">Basic Services</option>
 					<option value="Maintenance Services">Maintenance Services</option>
-					<option value="Premium Services">Premium Services</option></select
-				><br />
+					<option value="Premium Services">Premium Services</option>
+				</select>
 
 				<button>Add Service</button>
 			</form>
 
-			<h3>Services</h3>
+			<h3>All Services</h3>
 
 			<table>
 				<tr>
@@ -100,7 +124,11 @@
 				{% endfor %}
 			</table>
 
-			{% endif %} {% if page == "services" %}
+			{% endif %}
+
+			<!-- CUSTOMER SERVICES -->
+
+			{% if page == "services" %}
 
 			<h3>Available Services</h3>
 
@@ -191,14 +219,18 @@
 				{% endif %} {% endfor %}
 			</table>
 
-			{% endif %} {% if page == "admin_bookings" %}
+			{% endif %}
+
+			<!-- ADMIN BOOKINGS -->
+
+			{% if page == "admin_bookings" %}
 
 			<h3>All Bookings</h3>
 
 			<table>
 				<tr>
 					<th>ID</th>
-					<th>User</th>
+					<th>User Email</th>
 					<th>Service</th>
 					<th>Date</th>
 					<th>Status</th>
@@ -209,9 +241,10 @@
 
 				<tr>
 					<td>{{b.id}}</td>
-					<td>{{b.user_id}}</td>
-					<td>{{b.service_id}}</td>
+					<td>{{b.email}}</td>
+					<td>{{b.service}}</td>
 					<td>{{b.date}}</td>
+
 					<td>
 						{% if b.status == "Pending" %}
 						<span class="status status-pending">Pending</span>
@@ -224,7 +257,6 @@
 
 					<td>
 						<a href="/admin/update-booking/{{b.id}}/Approved">Approve</a> |
-
 						<a href="/admin/update-booking/{{b.id}}/Completed">Complete</a>
 					</td>
 				</tr>
@@ -232,7 +264,11 @@
 				{% endfor %}
 			</table>
 
-			{% endif %} {% if page == "my_bookings" %}
+			{% endif %}
+
+			<!-- CUSTOMER BOOKINGS -->
+
+			{% if page == "my_bookings" %}
 
 			<h3>My Bookings</h3>
 
@@ -252,6 +288,7 @@
 					<td>{{b.service_name}}</td>
 					<td>₹ {{b.price}}</td>
 					<td>{{b.date}}</td>
+
 					<td>
 						{% if b.status == "Pending" %}
 						<span class="status status-pending">Pending</span>
