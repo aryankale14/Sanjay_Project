@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-import os
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret123'
@@ -29,6 +29,7 @@ class Service(db.Model):
     description = db.Column(db.String(200))
     price = db.Column(db.Integer)
     category = db.Column(db.String(100))
+    
 
 
 class Booking(db.Model):
@@ -37,6 +38,7 @@ class Booking(db.Model):
     service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
     date = db.Column(db.String(50))
     status = db.Column(db.String(50), default="Pending")
+    
 
 
 class Payment(db.Model):
@@ -259,12 +261,30 @@ def my_bookings():
 @app.route("/admin/bookings")
 def admin_bookings():
 
+    if session.get("role") != "admin":
+        return redirect("/")
+
     bookings = Booking.query.all()
+
+    booking_data = []
+
+    for b in bookings:
+
+        user = User.query.get(b.user_id)
+        service = Service.query.get(b.service_id)
+
+        booking_data.append({
+            "id": b.id,
+            "email": user.email,
+            "service": service.service_name,
+            "date": b.date,
+            "status": b.status
+        })
 
     return render_template(
         "index.html",
         page="admin_bookings",
-        bookings=bookings
+        bookings=booking_data
     )
 
 
@@ -304,5 +324,4 @@ if __name__ == "__main__":
             db.session.add(admin)
             db.session.commit()
 
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
