@@ -1,7 +1,7 @@
 # -----------------------------
 # IMPORTS (Bring in needed tools)
 # -----------------------------
-
+import os
 # Flask is a lightweight web framework. We use it to create web pages and respond to user actions.
 from flask import Flask, render_template, request, redirect, session
 
@@ -464,4 +464,5 @@ if __name__ == "__main__":
             db.session.commit()
 
     # Run the Flask development server with debug mode enabled.
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
