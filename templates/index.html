@@ -170,11 +170,10 @@
 					<td>₹ {{s.price}}</td>
 
 					<td>
-						<a
-							href="/book/{{s.id}}"
-							onclick="return confirmBooking('{{s.service_name}}')"
-							>Book</a
-						>
+						<form action="/book/{{s.id}}" method="POST" style="display: flex; gap: 10px; margin: 0; padding: 0; width: auto; box-shadow: none; background: transparent;">
+							<input type="date" name="booking_date" required style="width: 140px; margin: 0;" />
+							<button type="submit" onclick="return confirmBooking('{{s.service_name}}')" style="margin: 0;">Book</button>
+						</form>
 					</td>
 				</tr>
 
@@ -199,11 +198,10 @@
 					<td>₹ {{s.price}}</td>
 
 					<td>
-						<a
-							href="/book/{{s.id}}"
-							onclick="return confirmBooking('{{s.service_name}}')"
-							>Book</a
-						>
+						<form action="/book/{{s.id}}" method="POST" style="display: flex; gap: 10px; margin: 0; padding: 0; width: auto; box-shadow: none; background: transparent;">
+							<input type="date" name="booking_date" required style="width: 140px; margin: 0;" />
+							<button type="submit" onclick="return confirmBooking('{{s.service_name}}')" style="margin: 0;">Book</button>
+						</form>
 					</td>
 				</tr>
 
@@ -228,11 +226,10 @@
 					<td>₹ {{s.price}}</td>
 
 					<td>
-						<a
-							href="/book/{{s.id}}"
-							onclick="return confirmBooking('{{s.service_name}}')"
-							>Book</a
-						>
+						<form action="/book/{{s.id}}" method="POST" style="display: flex; gap: 10px; margin: 0; padding: 0; width: auto; box-shadow: none; background: transparent;">
+							<input type="date" name="booking_date" required style="width: 140px; margin: 0;" />
+							<button type="submit" onclick="return confirmBooking('{{s.service_name}}')" style="margin: 0;">Book</button>
+						</form>
 					</td>
 				</tr>
 
