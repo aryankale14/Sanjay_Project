@@ -456,7 +456,7 @@ if __name__ == "__main__":
             admin = User(
                 name="Admin",
                 email="admin@gmail.com",
-                password=generate_password_hash("admin123"),
+                password=generate_password_hash("sanjay@admin123"),
                 role="admin"
             )
 
